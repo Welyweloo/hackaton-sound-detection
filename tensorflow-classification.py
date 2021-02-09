@@ -37,7 +37,6 @@ def stereo_to_mono(wavsamplefile):
     return mono_filename
 
 
-
 def ensure_sample_rate(original_sample_rate, waveform,
                        desired_sample_rate=16000):
   """Resample waveform if required."""
@@ -50,7 +49,6 @@ def ensure_sample_rate(original_sample_rate, waveform,
 
 class_map_path = model.class_map_path().numpy()
 class_names = class_names_from_csv(class_map_path)
-
 
 wav_file_name = stereo_to_mono('/home/aurelie/Documents/Hackaton/ie_shot_gun-luminalace-770179786.wav')
 #wav_file_name = '/src/miaow_16k.wav'

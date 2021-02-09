@@ -17,7 +17,7 @@ import wave
 
 
 ### Defining constant ###
-SOUND_THRESHOLD = 400
+SOUND_THRESHOLD = 100
 SHORT_NORMALIZE = (1.0/32768.0)
 chunk = 1024
 FORMAT = pyaudio.paInt16
