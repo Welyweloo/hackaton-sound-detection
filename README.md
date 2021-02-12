@@ -18,6 +18,7 @@ git clone https://github.com/Welyweloo/hackaton-sound-detection.git
 
 2. Installer les pré-requis :
 ```
+sudo apt-get install portaudio19-dev
 pip install -r requirements.txt
 ```
 
@@ -72,3 +73,6 @@ Utilisateur: *Agent de proximité partant en patrouille*
 - Pour la classification du son, la base de code est fournie ici :  https://www.tensorflow.org/hub/tutorials/yamnet
 
 - Pour la création du code de reconnaissance vocale, la documentation est fournie ici : https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition/onresult
+
+## Auteurs
+Aurélie - Benjamin - Maxime - Viverk
