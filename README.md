@@ -14,6 +14,7 @@ Ce programme a été testé avec les configurations suivantes:
 1. Cloner ce dépôt : 
 ```
 git clone https://github.com/Welyweloo/hackaton-sound-detection.git
+cd sound-detector
 ```
 
 2. Installer les pré-requis :
