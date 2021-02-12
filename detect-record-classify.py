@@ -9,6 +9,7 @@ import numpy as np
 import os
 import pyaudio
 from queue import Queue
+import requests
 import scipy.signal
 import struct
 import tensorflow as tf
@@ -19,7 +20,9 @@ import wave
 
 
 ### Defining constant ###
-SOUND_THRESHOLD = 150
+SOUND_THRESHOLD = 160         ### TO FIND YOUR SOUND_THRESHOLD PRINT THE RMS VALUE
+
+
 SHORT_NORMALIZE = (1.0/32768.0)
 chunk = 1024
 FORMAT = pyaudio.paInt16
@@ -32,6 +35,8 @@ RECORDED_SOUND_DIRECTORY = r'recorded_sounds'
 
 # Load the model.
 model = hub.load('https://tfhub.dev/google/yamnet/1')
+localhost = 'http://10.0.2.2:8888'
+
 
 class Classify:
 
@@ -93,6 +98,14 @@ class Classify:
         infered_class = class_names[scores_np.mean(axis=0).argmax()]
 
         print(f'The main sound is: {infered_class}')
+
+        #Sending POST request to API
+        if infered_class not in ['Speech', 'Silence']:
+            url = localhost + '/php/get_sound_nature.php'
+            object = {'sound_nature': infered_class}
+
+            request = requests.post(url, data = object)
+
 
 class Recorder:
 
@@ -157,9 +170,14 @@ class Recorder:
     def listen(self):
         print('Listening beginning')
         while True:
+
+            #Sending request to API
+            url = localhost + '/php/set_listenning_status.php'
+            response = requests.get(url)
+
             input = self.stream.read(chunk)
             rms_val = self.rms(input)
-            
+            print(rms_val)
             if rms_val > SOUND_THRESHOLD:
                 
                 print(f' {rms_val} - Sound DETECTED')
@@ -170,16 +188,24 @@ class Recorder:
 
 if __name__ == '__main__':
 
-    classifier = Classify()
+    print('Start sound detection and classication')
+    while True:
 
-    class_map_path = model.class_map_path().numpy()
-    class_names = classifier.class_names_from_csv(class_map_path)
+        # Retrieving permission to start the program
+        url = localhost + '/php/get_wello_status.php'
+        response = requests.get(url)
 
-    recorder = Recorder()
+        if response.text == '1':
+            classifier = Classify()
 
-    try:
-        recorder.listen()
-    except KeyboardInterrupt:
-        print('You pressed Ctrl + c : Program exit.')
+            class_map_path = model.class_map_path().numpy()
+            class_names = classifier.class_names_from_csv(class_map_path)
 
+            recorder = Recorder()
+
+            try:
+                recorder.listen()
+            except KeyboardInterrupt:
+                print('You pressed Ctrl + c : Program exit.')
+                exit(0)
 
