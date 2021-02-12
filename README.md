@@ -7,7 +7,7 @@ Conception d'un prototype de reconnaissance et traitement de signal audio à con
 ## Installation 
 
 Ce programme a été testé avec les configurations suivantes:
-- Raspian Buster / Ubuntu 20.04
+- Ubuntu 20.04
 - Mysql 8.0.23
 - Python3.8
 
